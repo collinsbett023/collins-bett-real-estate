@@ -4,11 +4,13 @@ from models.property import Property
 from models.realtors import Realtor
 
 
+# Exit from program
 def exit_program():
     print("Exiting.....")
     exit()
 
 
+# list data from db
 def list_properties():
     houses = Property.get_all()
     if houses:
@@ -126,18 +128,27 @@ def delete_property():
 
 
 def delete_client():
-    item_id = input("Provide property id: ")
-    if property_item := Property.find_by_id(item_id):
-        property_item.delete()
-        print("Property has been deleted")
+    item_id = input("Provide client id: ")
+    if client_item := Client.find_by_id(item_id):
+        client_item.delete()
+        print("Client has been deleted")
     else:
-        print("Property id has not been found")
+        print("Client has not been found")
 
 
-def delete_property():
-    item_id = input("Provide property id: ")
-    if property_item := Property.find_by_id(item_id):
-        property_item.delete()
-        print("Property has been deleted")
+def delete_realtor():
+    item_id = input("Provide realtor id: ")
+    if realtor_item := Realtor.find_by_id(item_id):
+        realtor_item.delete()
+        print("Realtor has been removed")
     else:
-        print("Property id has not been found")
+        print("Realtor has not been found")
+
+
+def delete_contract():
+    item_id = input("Provide contract id: ")
+    if contract_item := Contract.find_by_id(item_id):
+        contract_item.delete()
+        print("Contract has been removed")
+    else:
+        print("Contract has not been found")
