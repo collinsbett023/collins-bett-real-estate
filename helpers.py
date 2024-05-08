@@ -15,7 +15,7 @@ def list_properties():
     houses = Property.get_all()
     if houses:
         for house in houses:
-            print(house.address)
+            print(house.name, house.address, house.price, house.status)
     else:
         print("No houses")
 
@@ -76,7 +76,7 @@ def find_realtor_by_id():
 def create_property():
     name = input("Enter the property name: ")
     address = input("Enter the address: ")
-    price = input("Enter the price: ")
+    price = int(input("Enter the price: "))
     status = input("Select the state of the property: ")
 
     try:
