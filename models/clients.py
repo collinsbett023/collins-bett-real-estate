@@ -45,7 +45,7 @@ class Client:
 
     @classmethod
     def drop_table(cls):
-        """ Drop the table that persists Department instances """
+
         sql = """
             DROP TABLE IF EXISTS clients;
         """
@@ -53,9 +53,7 @@ class Client:
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name and location values of the current Department instance.
-        Update object id attribute using the primary key value of new row.
-        Save the object in local dictionary using table row's PK as dictionary key"""
+
         sql = """
             INSERT INTO clients (name, email)
             VALUES (?, ?)
@@ -80,11 +78,9 @@ class Client:
         CONN.commit()
 
     def delete(self):
-        """Delete the table row corresponding to the current Department instance,
-        delete the dictionary entry, and reassign id attribute"""
 
         sql = """
-            DELETE FROM properties
+            DELETE FROM clients
             WHERE id = ?
         """
 
@@ -99,7 +95,6 @@ class Client:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a Department object having the attribute values from the table row."""
 
         # Check the dictionary for an existing instance using the row's primary key
         client = cls.all.get(row[0])
@@ -116,7 +111,7 @@ class Client:
 
     @classmethod
     def get_all(cls):
-        """Return a list containing a Department object per row in the table"""
+
         sql = """
             SELECT *
             FROM clients
@@ -128,7 +123,7 @@ class Client:
 
     @classmethod
     def find_by_id(cls, id):
-        """Return a Department object corresponding to the table row matching the specified primary key"""
+
         sql = """
             SELECT *
             FROM clients

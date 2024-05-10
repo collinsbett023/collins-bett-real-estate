@@ -5,6 +5,7 @@ class Property:
     all = {}
 
     def __init__(self, name, address, price, status, id=None):
+
         self.id = id
         self.name = name
         self.address = address
@@ -53,13 +54,13 @@ class Property:
     def create_table(cls):
         sql = """CREATE TABLE IF NOT EXISTS properties (id INTEGER PRIMARY KEY, name TEXT, address VARCHAR, 
         price INTEGER, 
-        status TEXT)"""
+        status TEXT )"""
         CURSOR.execute(sql)
         CONN.commit()
 
     @classmethod
     def drop_table(cls):
-        """ Drop the table that persists Department instances """
+        """ Drop the Property table """
         sql = """
             DROP TABLE IF EXISTS properties;
         """
@@ -67,9 +68,7 @@ class Property:
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name and location values of the current Department instance.
-        Update object id attribute using the primary key value of new row.
-        Save the object in local dictionary using table row's PK as dictionary key"""
+        """ Insert a new row with Property values"""
         sql = """
             INSERT INTO properties (name, address, price, status )
             VALUES (?, ?, ?, ?)
@@ -89,13 +88,13 @@ class Property:
         return property_item
 
     def update(self):
-        sql = """UPDATE properties SET name = ?, address = ?, price = ?, status = ? WHERE id = ? """
+        sql = """UPDATE properties SET name = ?, address = ?, price = ?, status = ? WHERE id 
+        = ?"""
         CURSOR.execute(sql, (self.name, self.address, self.price, self.status, self.id))
         CONN.commit()
 
     def delete(self):
-        """Delete the table row corresponding to the current Department instance,
-        delete the dictionary entry, and reassign id attribute"""
+        """Deletes property row"""
 
         sql = """
             DELETE FROM properties
@@ -113,7 +112,7 @@ class Property:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a Department object having the attribute values from the table row."""
+        """Return a Property object having the from the table row."""
 
         # Check the dictionary for an existing instance using the row's primary key
         property_item = cls.all.get(row[0])
@@ -125,14 +124,14 @@ class Property:
             property_item.status = row[4]
         else:
             # not in dictionary, create new instance and add to dictionary
-            property_item = cls(row[1], row[2], row[3], row[4] )
+            property_item = cls(row[1], row[2], row[3], row[4])
             property_item.id = row[0]
             cls.all[property_item.id] = property_item
         return property_item
 
     @classmethod
     def get_all(cls):
-        """Return a list containing a Department object per row in the table"""
+
         sql = """
             SELECT *
             FROM properties
@@ -144,7 +143,7 @@ class Property:
 
     @classmethod
     def find_by_id(cls, id):
-        """Return a Department object corresponding to the table row matching the specified primary key"""
+
         sql = """
             SELECT *
             FROM properties

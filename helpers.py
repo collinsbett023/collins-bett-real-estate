@@ -25,8 +25,8 @@ def list_clients():
     if clients:
         for client in clients:
             print(client.name)
-        else:
-            print("No clients")
+    else:
+        print("No clients")
 
 
 def list_realtors():
@@ -42,7 +42,7 @@ def list_contracts():
     contracts = Contract.get_all()
     if contracts:
         for contract in contracts:
-            print(contract)
+            print(contract.id)
     else:
         print("No contracts")
 
@@ -63,7 +63,7 @@ def find_client_by_id():
 def find_contract_by_id():
     item_id = input("Enter the contract id: ")
     contract_item = Contract.find_by_id(item_id)
-    print(contract_item.name) if contract_item else print(f'Contract with id {item_id} not found')
+    print(contract_item.property_id, contract_item.client_id, contract_item.realtor_id) if contract_item else print(f'Contract with id {item_id} not found')
 
 
 def find_realtor_by_id():
@@ -107,9 +107,9 @@ def create_client():
 
 
 def create_contract():
-    property_id = input("Enter property id: ")
-    client_id = input("Enter client id: ")
-    realtor_id = input("Enter realtor id: ")
+    property_id = int(input("Enter property id: "))
+    client_id = int(input("Enter client id: "))
+    realtor_id = int(input("Enter realtor id: "))
     try:
         Contract.create(property_id, client_id, realtor_id)
         print("Contract as been added")

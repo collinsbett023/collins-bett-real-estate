@@ -66,9 +66,7 @@ class Contract:
         CONN.commit()
 
     def save(self):
-        """ Insert a new row with the name, job title, and department id values of the current Employee object.
-        Update object id attribute using the primary key value of new row.
-        Save the object in local dictionary using table row's PK as dictionary key"""
+
         sql = """
                 INSERT INTO contracts (property_id, client_id, realtor_id)
                 VALUES (?, ?, ?)
@@ -81,8 +79,6 @@ class Contract:
         type(self).all[self.id] = self
 
     def delete(self):
-        """Delete the table row corresponding to the current Employee instance,
-        delete the dictionary entry, and reassign id attribute"""
 
         sql = """
             DELETE FROM contracts
@@ -100,14 +96,14 @@ class Contract:
 
     @classmethod
     def create(cls, property_id, client_id, realtor_id):
-        """ Initialize a new Employee instance and save the object to the database """
+
         contract = cls(property_id, client_id, realtor_id)
         contract.save()
         return contract
 
     @classmethod
     def drop_table(cls):
-        """ Drop the table that persists Department instances """
+
         sql = """
             DROP TABLE IF EXISTS contracts;
         """
@@ -116,7 +112,6 @@ class Contract:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return an Employee object having the attribute values from the table row."""
 
         # Check the dictionary for  existing instance using the row's primary key
         contract = cls.all.get(row[0])
@@ -134,7 +129,7 @@ class Contract:
 
     @classmethod
     def get_all(cls):
-        """Return a list containing one Employee object per table row"""
+
         sql = """
             SELECT *
             FROM contracts
@@ -146,7 +141,7 @@ class Contract:
 
     @classmethod
     def find_by_id(cls, id):
-        """Return Employee object corresponding to the table row matching the specified primary key"""
+
         sql = """
             SELECT *
             FROM contracts
