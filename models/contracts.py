@@ -150,3 +150,16 @@ class Contract:
 
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def get_contract_details(cls, contract_id):
+        selected_contract = Contract.find_by_id(contract_id)
+        client_id = selected_contract.client_id
+        realtor_id = selected_contract.realtor_id
+        property_id = selected_contract.property_id
+
+        p = Property.find_by_id(property_id)
+        r = Realtor.find_by_id(realtor_id)
+        c = Client.find_by_id(client_id)
+
+        return {"Property Name": p.name, "Realtor Name": r.name, "Client Name": c.name}

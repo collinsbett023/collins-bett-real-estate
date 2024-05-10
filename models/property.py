@@ -1,16 +1,18 @@
 from models.connect import CONN, CURSOR
+from models.clients import Client
 
 
 class Property:
     all = {}
 
-    def __init__(self, name, address, price, status, id=None):
+    def __init__(self, name, address, price, status, owner, id=None):
 
         self.id = id
         self.name = name
         self.address = address
         self.price = price
         self.status = status
+        self.owner = owner
 
     @property
     def name(self):
@@ -50,11 +52,14 @@ class Property:
         else:
             raise ValueError("Invalid word")
 
+    def owner(self):
+        return self.owner
+
     @classmethod
     def create_table(cls):
         sql = """CREATE TABLE IF NOT EXISTS properties (id INTEGER PRIMARY KEY, name TEXT, address VARCHAR, 
         price INTEGER, 
-        status TEXT )"""
+        status TEXT, owner INTEGER, FOREIGN KEY (owner) REFERENCES clients(id) )"""
         CURSOR.execute(sql)
         CONN.commit()
 
@@ -70,27 +75,27 @@ class Property:
     def save(self):
         """ Insert a new row with Property values"""
         sql = """
-            INSERT INTO properties (name, address, price, status )
-            VALUES (?, ?, ?, ?)
+            INSERT INTO properties (name, address, price, status, owner )
+            VALUES (?, ?, ?, ?, ?)
         """
 
-        CURSOR.execute(sql, (self.name, self.address, self.price, self.status))
+        CURSOR.execute(sql, (self.name, self.address, self.price, self.status, self.owner))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
 
     @classmethod
-    def create(cls, name, address, price, status):
+    def create(cls, name, address, price, status, owner):
 
-        property_item = cls(name, address, price, status)
+        property_item = cls(name, address, price, status, owner)
         property_item.save()
         return property_item
 
     def update(self):
-        sql = """UPDATE properties SET name = ?, address = ?, price = ?, status = ? WHERE id 
+        sql = """UPDATE properties SET name = ?, address = ?, price = ?, status = ?, owner = ? WHERE id 
         = ?"""
-        CURSOR.execute(sql, (self.name, self.address, self.price, self.status, self.id))
+        CURSOR.execute(sql, (self.name, self.address, self.price, self.status, self.owner, self.id))
         CONN.commit()
 
     def delete(self):
@@ -112,7 +117,7 @@ class Property:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a Property object having the from the table row."""
+        """Return a Property object from the table row."""
 
         # Check the dictionary for an existing instance using the row's primary key
         property_item = cls.all.get(row[0])
@@ -122,9 +127,10 @@ class Property:
             property_item.address = row[2]
             property_item.price = row[3]
             property_item.status = row[4]
+            property_item.owner = row[5]
         else:
             # not in dictionary, create new instance and add to dictionary
-            property_item = cls(row[1], row[2], row[3], row[4])
+            property_item = cls(row[1], row[2], row[3], row[4], row[5])
             property_item.id = row[0]
             cls.all[property_item.id] = property_item
         return property_item
@@ -152,3 +158,9 @@ class Property:
 
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def return_client_name(cls, owner_id):
+        client = Client.find_by_id(owner_id)
+        client_name = client.name
+        return client_name

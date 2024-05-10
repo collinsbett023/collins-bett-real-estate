@@ -1,11 +1,12 @@
 from helpers import (exit_program, list_properties, list_clients, list_contracts, list_realtors, create_realtor,
                      create_client, create_contract, create_property, delete_contract, delete_realtor, delete_client,
-                     delete_property, find_contract_by_id, find_property_by_id, find_client_by_id, find_realtor_by_id)
+                     delete_property, find_contract_by_id, find_property_by_id, find_client_by_id, find_realtor_by_id,
+                     owner_name, contract_details)
 
 
 def menu():
-    print("Welcome to Real Estate Application, Please select an option")
-    print("0 -> Exit the program")
+    print("\nWelcome to Real Estate Application, Please select an option")
+    print("0 -> Exit the program\n")
     print("1 -> List all Properties")
     print("2 -> List all Clients")
     print("3 -> List all Contracts")
@@ -25,6 +26,8 @@ def menu():
     print("14 -> Find Client by id:")
     print("15 -> Find Realtor by id:")
     print("16 -> Find Contract by id:")
+    print("17 -> Get the property owner: ")
+    print("18 -> Get the contract details: \n")
 
 
 def main():
@@ -65,6 +68,10 @@ def main():
             find_realtor_by_id()
         elif selection == "16":
             find_contract_by_id()
+        elif selection == "17":
+            owner_name()
+        elif selection == "18":
+            contract_details()
         else:
             print("Invalid choice")
 
