@@ -79,7 +79,7 @@ def create_property():
     name = input("Enter the property name: ")
     address = input("Enter the address: ")
     price = int(input("Enter the price: "))
-    status = input("Select the state of the property: ")
+    status = input("Select the state of the property (On Sale or SOLD): ")
     owner = input("Enter the client id: ")
 
     try:
