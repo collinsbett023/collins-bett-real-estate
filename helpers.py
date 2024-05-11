@@ -65,13 +65,13 @@ def find_contract_by_id():
     item_id = input("Enter the contract id: ")
     contract_item = Contract.find_by_id(item_id)
     print(contract_item.property_id, contract_item.client_id, contract_item.realtor_id) if contract_item else print(
-        f'Contract with id {item_id} not found')
+        f'\t\nContract with id {item_id} not found\n')
 
 
 def find_realtor_by_id():
     item_id = input("Enter the realtor id: ")
     realtor_item = Realtor.find_by_id(item_id)
-    print(f'\n\tName{realtor_item.name}') if realtor_item else print(f'\t\nRealtor with id {item_id} not found\n')
+    print(f'\n\tName:{realtor_item.name}') if realtor_item else print(f'\t\nRealtor with id {item_id} not found\n')
 
 
 # Create object
